@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon -e js,ejs"
-
   },
   "keywords": [],
   "author": "",
@@ -16,6 +15,7 @@
     "ejs": "^3.1.5",
     "express": "^4.17.1",
     "express-handlebars": "^5.2.0",
+    "mongoose": "^5.11.9",
     "reload": "^3.1.1",
     "util": "^0.12.3"
   }

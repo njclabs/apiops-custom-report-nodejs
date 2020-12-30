@@ -1,19 +1,19 @@
 const mongoose = require('mongoose');
-const Issue = require('./models/dbmodel');          // get the DB model
+const Issue = require('../models/dbmodel');          // get the DB model
 
 
-const connectDB = async() => {
+const connectDB = async () => {
     //const dburi = "mongodb+srv://admin:admin@cluster0.rxrbx.mongodb.net/error?retryWrites=true&w=majority";
     const dburi = "mongodb+srv://admin:admin@cluster0.egtqg.mongodb.net/error?retryWrites=true&w=majority";
-    mongoose.connect(dburi,{useNewUrlParser: true,useUnifiedTopology: true})
+    mongoose.connect(dburi, { useNewUrlParser: true, useUnifiedTopology: true })
         .then((result) => console.log('Connected to DB successfully ... '))
         .catch((err) => console.log(err));
-    
+
 }
 
 // get all the collections from the database 
-function getAllCollection(){
-    return new Promise ((resolve, reject) => {
+function getAllCollection() {
+    return new Promise((resolve, reject) => {
         var IssueList = [];
         Issue.find({})
             .exec()
@@ -25,12 +25,12 @@ function getAllCollection(){
                 })
 
                 //console.log("DB : ", IssueList);
-                resolve( IssueList );
+                resolve(IssueList);
             })
             .catch((err) => {
                 throw err;
-                            
-        });
+
+            });
 
     });
 
@@ -39,7 +39,7 @@ function getAllCollection(){
 
 // Add new records in the database 
 // create an instance of the db
-function addSingleCollection(){
+function addSingleCollection() {
     const issueObj = new Issue({
         issue: "No info entries found during migration.",
         time: 0
@@ -49,11 +49,11 @@ function addSingleCollection(){
         .catch((err) => console.log(err));     // on failure
 }
 
-function addMultipleCollection(objList){
+function addMultipleCollection(objList) {
     Issue.insertMany(objList)
         .then((result) => console.log("Data added to the database"))   // on success
         .catch((err) => console.log(err));                              // on failure
 }
 
 // export the module
-module.exports = {connectDB, getAllCollection, addMultipleCollection, addSingleCollection}
+module.exports = { connectDB, getAllCollection, addMultipleCollection, addSingleCollection }
