@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Compiled and minified CSS -->
+        <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"-->                
+        <!--link rel="stylesheet" href="/css/style.css"-->
+
+        <style>
+                    .h-style {
+                border: 2px solid black;
+                margin: 50px;
+                background-color: #0B614B;
+                color:white;
+                text-align: center
+            }
+
+            .header img{
+                float: left;
+                width: 80px;
+                height: 80px;
+                background: #555;
+            }
+
+            .header h1{
+                position: relative;
+                top: 18px;
+                left: 10px;
+            }
+
+            .col-left-margin { margin: 50px;}
+            .td-col1 {width:50%; text-align: left;}
+            .td-col2 {width:10%; text-align: center;}
+            .td-col3 {width:10%; text-align: center;}
+            .hr-line {width: 60%; margin-left: auto; margin-right: auto;}
+            .hr-align{ 
+                text-align: left; 
+                background-color: #85C1E9;  
+                border: 1px solid #8d8d8d;
+                padding-top: 12px;
+                padding-bottom: 12px;
+                padding-right: 15px;  padding-left: 15px; 
+                margin: 50px;
+                width: 100%; 
+            }
+            .normal-text{font-weight: normal;}
+            
+            #report {
+                font-family: Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                width: 100%;}
+
+            .column { float: left; width: 33.33%; padding: 5px;}
+            .row::after {content: ""; clear: both; display: table; }
+            #report td, #report th { border: 1px solid #8d8d8d; padding: 8px;}
+            #report th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                padding-right: 5px;  padding-left: 5px;  text-align: left;
+                background-color: #0B614B;
+                color: white;
+                font-weight: bold;
+            }
+
+            #report-issue {
+                font-family: Arial, Helvetica, sans-serif;
+                border-collapse: collapse;
+                table-layout: auto;
+                width: 100%;}
+                
+            #report-issue th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                padding-right: 15px; 
+                padding-left: 15px;  
+                background-color: #F1C40F;
+                color:black;
+                border: 1px solid #8d8d8d;
+                margin: 50px ;
+                font-weight: bold;
+            }
+            #report-issue td, #report-issue td { border: 1px solid #8d8d8d; padding: 8px;}
+            
+            .tr-border{ border: 1px ; background-color: #C7F6D5; } 
+
+            .tr-border1{ border: 1px solid #ddd; } 
+                    
+        </style>
+        <!--script>
+            location.reload(true); // reload new content
+            </script>-->
+        <title>Custom Report</title>
+    </head>
+
+    <body>
+        <div class="header">
+            
+                <img src="./images/njc_full_logo.PNG" width="80" height="80" style="vertical-align:middle;margin:0px 50px" >          
+                <h1> Mule Migration Assistant Report </h1>
+            
+        </div>
+        <div class="h-style">
+            <h4>Issues found during migration: </h4>
+        </div>
+        <div class="col-left-margin">
+            
+            
+                <% if (data.length > 0) { %>
+                    <% let openTable = 0  %>
+                    <% data.forEach( function(entry) { %>
+                        
+                        <% if (entry.issue === 'Errors:' ||  entry.issue === 'Info:' ||  entry.issue === 'Warnings:') {  %>
+                           
+                            <% if(openTable == 1) { %>
+                                </table>
+                                <h2 margin=50px;><%= entry.issue %></h2 >
+                                <table id="report-issue" >
+                                    <tr class="tr-border">
+                                        <th class="td-col1">Description</th>
+                                        <th class="td-col2">Total issue</th>
+                                        <th class="td-col3">Est. Time</th >
+                                    </tr >
+                               
+                             
+                             <% } else {%>
+                                <h2 margin=50px;><%= entry.issue %></h2 >
+                                <table id="report-issue" >
+                                    <tr class="tr-border">
+                                        <th class="td-col1">Description</th>
+                                        <th class="td-col2">Total issue</th>
+                                        <th class="td-col3">Est. Time</th >
+                                    </tr >
+                                <%  openTable = 1; %>
+                                
+                            <% } %>
+                            
+                                    
+                           
+                        <% } else if ((entry.issue).includes(".xml")){ %>
+                            <tr class="tr-border" background-color: #E8F8F5;>
+                                <td class="td-col1"><%= entry.issue %></td >
+                                <td class="td-col2"><%= entry.total %></td >
+                                <td class="td-col3"><%= entry.time %></td >
+                            </tr >
+                        <% } else { %>
+                            <tr class="tr-border1">
+                                <td class="td-col1"><%= entry.issue %></td >
+                                <td class="td-col2"><%= entry.total %></td >
+                                <td class="td-col3"><%= entry.time %></td >
+                            </tr >
+                        <% } %>
+                        
+                    
+                    <% }) %>
+                <% } %>
+            </table>
+        </div>
+        
+       
+        <div class="col-left-margin"><h3>Estimated Time</h3>
+            <table id="report">
+                <tr>
+                    <th>Complexity </th>
+                    <th>Estimated time </th>
+                    <th>Estimated cost </th>
+                </tr>
+
+                <tr>
+                    <!--% const complex = 'medium' %-->
+                    <td><%= complex %> </td>
+                    <td><%= time %></td>
+                    <td>$<%= cost %></td>
+                </tr>
+            </table>
+        </div>
+   </body>
+
+</html>

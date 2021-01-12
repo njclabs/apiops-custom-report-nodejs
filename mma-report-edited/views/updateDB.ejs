@@ -1,0 +1,23 @@
+<html>
+    <%- include('./partials/head.ejs')%>
+    <body>
+        <%- include('./partials/nav.ejs')%>
+        <div class="row">
+                        
+            <div class="find-issue" style="background-color:#AED6F1;">
+                <form action="/dbIssues/time" method="post" target= "dbRecordDisplay">
+                    <label for="search">Search</label>
+                    <input type="number"  id="time" name="time" required>
+  
+                    <button type="submit" id="timebtn"  >Search</button>
+                    
+                    <label style="color:red;">* Search issue by time</label>
+                </form>
+              
+              <iframe src="/dbIssues/viewAll" width="100%" height="100%" align="middle" name="dbRecordDisplay"  id="dbRecordDisplay" style="background-color:#f5f9fc;">
+                <p>iframes are not supported by your browser.</p>
+               </iframe>
+            </div>
+        </div>
+    </body>
+</html> 

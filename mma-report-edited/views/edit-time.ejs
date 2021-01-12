@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+           .edit-issue form{
+              max-width: 400px;
+              margin: 0 auto;  
+              border: 1px solid rgb(189, 189, 199);
+              padding: 10px;
+            }
+
+            .edit-issue input,
+            .edit-issue textarea{
+              display: block;
+              width: 100%;
+              margin: 10px 0;
+              padding: 8px;
+            }
+
+            textarea{
+              height: 100px;
+            }
+
+
+            .edit-issue label {
+              display: block;
+              margin-top: 24px;
+            }
+
+            .edit-issue button{
+              margin-top: 20px;
+              background: rgb(126, 124, 123);
+              color:  rgb(232, 219, 248);
+              padding: 6px;
+              border: 0;
+              font-size: 1em;
+              cursor: pointer;
+              margin-left: 10px;
+              border-radius: 5px;
+            }
+
+            .button:hover { 
+              background-color: rgb(228, 124, 28);
+            }
+
+            .button:active {
+              background-color: rgb(228, 124, 28);;              
+              transform: translateY(4px);
+            }
+
+          </style>
+        <title>Custom Report| edit</title>
+    </head>
+    <body>
+        
+        <div class="edit-issue">
+          <form action="/dbIssues/edit" method="post" target= "dbRecordDisplay">
+            
+            <h1>Edit Time</h1>
+            <label>Issue</label>
+            <textarea id="issue" readonly="readonly"><%= editItem.issue%></textarea>
+            <label>Time</label>
+            <input type="number"  id="time"  name="time" value="<%= editItem.time%>" >
+            
+            <input type="hidden" id="id"  name="id" value="<%= editItem._id%>"">
+            <input type="hidden" id="prevTime" name="prevTime" value="<%= editItem.time%>">
+
+            <button type="submit" id="savebtn" value="Submit">Save</button>
+            <button type="reset" id="cancelbtn" value="Reset">Cancel</button>  
+
+            <!-- <input type="submit" value="Save" class = "btn">
+            <a href="list-by-time" class = "btn_orange">Cancel</a> -->
+          </form>
+        </div>
+        
+        
+          
+    </body>
+</html> 
