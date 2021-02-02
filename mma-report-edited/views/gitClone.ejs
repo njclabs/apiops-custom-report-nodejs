@@ -1,0 +1,24 @@
+<html>
+    <%- include('./partials/head.ejs')%>
+    <body>
+        <%- include('./partials/nav.ejs')%>
+        <div class="row">
+                        
+            <div class="find-issue" style="background-color:#AED6F1;">
+                <form action="/git/clone" method="post" target= "gitDisplay">
+                    <label for="Git">Git</label>
+                    <input class="git-input" type="text" id="gitValue" name="gitValue" required>
+  
+                    <button type="submit" id="submitbtn" >Clone</button>
+                    
+                    <label class="comments">* Cloning with Git</label>
+                </form>
+              
+              <iframe src="/message" width="100%" height="100%" align="middle" name="gitDisplay"  id="gitDisplay" style="background-color:#f5f9fc;">
+                <p>iframes are not supported by your browser.</p>
+               </iframe>
+            </div>
+        </div>
+       
+    </body>
+</html> 

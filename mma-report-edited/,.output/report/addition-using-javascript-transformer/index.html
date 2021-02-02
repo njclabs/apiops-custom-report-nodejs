@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Compiled and minified CSS -->
+        <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"-->                
+        <link rel="stylesheet" href="/css/style.css">
+
+        <style>
+           
+        </style>
+        <!--script>
+            location.reload(true); // reload new content
+            </script>-->
+        <title>Custom Report</title>
+    </head>
+
+    <body>
+        <div class="header">
+            
+                <img src="/images/njc_full_logo.png" width="80" height="80" style="vertical-align:middle;margin:0px 50px" >          
+                <h1> Mule Migration Assistant Report </h1>
+            
+        </div>
+        <div class="h-style">
+            Issues found during migration: 
+        </div>
+        <div class="col-left-margin">
+            
+            
+                
+                    
+                    
+                        
+                        
+                           
+                            
+                                <h2 margin=50px;>Errors:</h2 >
+                                <table id="report-issue" >
+                                    <tr class="tr-border">
+                                        <th class="td-col1">Description</th>
+                                        <th class="td-col2">Total issue</th>
+                                        <th class="td-col3">Est. Time</th >
+                                    </tr >
+                                
+                                
+                            
+                            
+                                    
+                           
+                        
+                        
+                    
+                    
+                        
+                        
+                            <tr class="tr-border" background-color: #E8F8F5;>
+                                <td class="td-col1"><b>javascript-calculator.xml</b></td >
+                                <td class="td-col2"><b>1</b></td >
+                                <td class="td-col3"></td >
+                            </tr >
+                        
+                        
+                    
+                    
+                        
+                        
+                            <tr class="tr-border1">
+                                <td class="td-col1">Mule 4 does not require transformers anymore. Now that DataWeave is the default expression language most scenarios that required a transformer no longer exist.</td >
+                                <td class="td-col2">1</td >
+                                <td class="td-col3">2</td >
+                            </tr >
+                        
+                        
+                    
+                    
+                        
+                        
+                           
+                            
+                                </table>
+                                <h2 margin=50px;>Warnings:</h2 >
+                                <table id="report-issue" >
+                                    <tr class="tr-border">
+                                        <th class="td-col1">Description</th>
+                                        <th class="td-col2">Total issue</th>
+                                        <th class="td-col3">Est. Time</th >
+                                    </tr >
+                               
+                             
+                             
+                            
+                                    
+                           
+                        
+                        
+                    
+                    
+                        
+                        
+                            <tr class="tr-border" background-color: #E8F8F5;>
+                                <td class="td-col1"><b>javascript-calculator.xml</b></td >
+                                <td class="td-col2"><b>4</b></td >
+                                <td class="td-col3"></td >
+                            </tr >
+                        
+                        
+                    
+                    
+                        
+                        
+                            <tr class="tr-border1">
+                                <td class="td-col1">Expressions that query &#39;inboundProperties&#39; from the message should instead query the message &#39;attributes&#39;. Remove this component if there are no uses of &#39;inboundProperties&#39; in expressions or components that rely on &#39;inboundProperties&#39; (such as &#39;copy-properties&#39;).</td >
+                                <td class="td-col2">1</td >
+                                <td class="td-col3">1</td >
+                            </tr >
+                        
+                        
+                    
+                    
+                        
+                        
+                            <tr class="tr-border1">
+                                <td class="td-col1">Instead of using outbound properties in the flow, move the expression that sets the property into the XML attribute (such as &#39;method&#39;) of the operation or listener that accepts the expression.</td >
+                                <td class="td-col2">1</td >
+                                <td class="td-col3">2</td >
+                            </tr >
+                        
+                        
+                    
+                    
+                        
+                        
+                            <tr class="tr-border1">
+                                <td class="td-col1">Avoid using an outbound property to determine the status code.</td >
+                                <td class="td-col2">2</td >
+                                <td class="td-col3">2</td >
+                            </tr >
+                        
+                        
+                    
+                    
+                        
+                        
+                           
+                            
+                                </table>
+                                <h2 margin=50px;>Info:</h2 >
+                                <table id="report-issue" >
+                                    <tr class="tr-border">
+                                        <th class="td-col1">Description</th>
+                                        <th class="td-col2">Total issue</th>
+                                        <th class="td-col3">Est. Time</th >
+                                    </tr >
+                               
+                             
+                             
+                            
+                                    
+                           
+                        
+                        
+                    
+                    
+                
+            </table>
+        </div>
+        
+       
+        <div class="col-left-margin"><h3>Estimated Time</h3>
+            <table id="report">
+                <tr>
+                    <th>Complexity </th>
+                    <th>Estimated time </th>
+                    <th>Estimated cost </th>
+                </tr>
+
+                <tr>
+                    <!--% const complex = 'medium' %-->
+                    <td>Simple </td>
+                    <td>6</td>
+                    <td>$60</td>
+                </tr>
+            </table>
+        </div>
+
+        
+   </body>
+
+</html>

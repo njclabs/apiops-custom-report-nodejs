@@ -26,7 +26,7 @@ function readSumaryFile(newfile)
         fs.readFile(newfile, 'utf8' , (err, html) => {                /// Replace the filePath to the newfile to pass multiple file path"************************",html)
                
             arrIssueList = [];    // store array of objects
-            
+            //console.log(html)
             const $ = cheerio.load(html);        
         
             // read the content that has the element with class name as 'col-md-8'

@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/git-style.css">
+        <title>Custom Report| GIT</title>
+    </head>
+    <body>
+        <div class="center">
+          <h2>Select projects to convert</h2>
+
+        <div class="lower-section">
+         
+          <div class="inner-container">
+            <h3> Project : <%= repoName %> </h3>
+            <hr/>
+            <form action="/git/migration" method="post" target= "gitDisplay"> 
+                
+                
+                
+                <input type="hidden" id="repoNameValue" name="repoNameValue" value="<%= repoName %>">
+                <% if (projectList.length > 0  ) { %>          
+                  <% projectList.forEach( function(projectName) { %>
+                  
+                    <label class="container"><%= projectName.filename %>
+                      <input type="checkbox" checked="checked" id="project" name="project" value=<%= projectName.filename %>>                    
+                      <span class="checkmark"></span>
+                    </label> 
+                  <% }) %>
+                
+                  <button type="submit" id="savebtn" value="Submit">Convert to Mule4</button>
+                
+          
+                  <% } if(!(repoName ==='Not Git Repository') && projectList.length === 0 ) { %>
+                    <p>Project already cloned and below are the contents </p>
+                    <% contents.forEach( function(projectName) { %>
+                    <label class="container"><%= projectName.filename %>
+                      <input type="checkbox" checked="checked" id="project" name="project" value=<%= projectName.filename %>>                    
+                      <span class="checkmark"></span>
+                    </label>   
+                  <% }) %>
+                  <button type="submit" id="savebtn" value="Submit">Convert to Mule4</button>
+
+                <% } %>
+                <% if (repoName ==='Not Git Repository' && projectList.length === 0 ) { %>
+                  <p>Please Check. Repository should end with .git</p>
+                <% } %>
+            </form>
+          </div>
+        </div>
+
+     </div>
+    </body>
+</html>

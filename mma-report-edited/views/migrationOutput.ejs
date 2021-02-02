@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/git-style.css">
+        <title>Custom Report| GIT</title>
+    </head>
+    <body>
+        <div background-color: #E8F8F5;>
+            <div class="center" >
+                <h2>Migrated Projects :</h2>
+                <hr/>
+                <div class="lower-section" >
+                    <div class="inner-container">
+                        <ul>
+                            <% if (message.length > 0) { %>
+                                <% message.forEach( function(entry) { %>
+                                    <li><%= entry %></li>
+                                <% })}%>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

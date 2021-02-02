@@ -6,12 +6,12 @@
                         
             <div class="find-issue" style="background-color:#AED6F1;">
                 <form action="/dbIssues/time" method="post" target= "dbRecordDisplay">
-                    <label for="search">Search</label>
+                    <label for="search">Search:</label>
                     <input type="number"  id="time" name="time" required>
-  
+                    <label>mins</label>
                     <button type="submit" id="timebtn"  >Search</button>
                     
-                    <label style="color:red;">* Search issue by time</label>
+                    <label style="color:rgb(58, 4, 207);">* Search issue by time</label>
                 </form>
               
               <iframe src="/dbIssues/viewAll" width="100%" height="100%" align="middle" name="dbRecordDisplay"  id="dbRecordDisplay" style="background-color:#f5f9fc;">
