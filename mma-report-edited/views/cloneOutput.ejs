@@ -39,7 +39,7 @@
                       <span class="checkmark"></span>
                     </label>   
                   <% }) %>
-                  <button type="submit" id="savebtn" value="Submit">Convert to Mule4</button>
+                  <button type="submit" id="savebtn" value="Submit"  onclick="changeText(this)">Convert to Mule4</button>
 
                 <% } %>
                 <% if (repoName ==='Not Git Repository' && projectList.length === 0 ) { %>
@@ -50,5 +50,17 @@
         </div>
 
      </div>
+     <script>
+
+      // on button click change the text and color of the button
+      function changeText(btnState){
+        var btnText  = document.getElementById("savebtn");  // get the text 
+        
+        btnText.innerHTML = "Converting..."
+        //btnState.disabled = true;
+        btnState.style.backgroundColor = "#585b5e";
+        btnState.style.cursor= null;
+      }
+  </script>
     </body>
 </html>

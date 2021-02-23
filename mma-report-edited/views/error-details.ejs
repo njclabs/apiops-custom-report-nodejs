@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mule Migration Error Details</title>
+        <style>
+            * {
+                    box-sizing: border-box;
+                }
+            body{
+                background-color: #E8F8F5;
+            }
+
+            .center{
+                margin:auto;
+                margin-top: 5%;
+                width:90%;
+                border: 5px solid rgb(154, 160, 182);                
+                padding: 10px;
+                background-color: rgb(182, 210, 238);
+                height: auto;
+                position: relative;
+                
+            }
+
+            .lower-section{
+                background-color:#AED6F1;
+                width: 100%;
+                height: auto;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--issue: issueOnFile, des: description, reflinks:issueHrefList, detail: issueDetailList-->
+        <div class="center">
+            <div>
+                <h2>Issues: <%= issue%></h2>
+                <h4>Description:<%= des%></h4>
+                <h4>Reference documentations:</h4>
+                <% if (reflinks.length > 0) { %>
+                    <% reflinks.forEach( function(link) { %>
+                        <h4><a href=<%= link%> target="_blank"><%= link%></a></h4>
+                    <%})%>
+                <%}%>
+            </div>
+
+            <% if (detail.length > 0) { %>
+                <% detail.forEach( function(issueDetail) { %>
+                <div class="lower-section">
+                    <h4> line: <%= issueDetail.Line%> column: <%= issueDetail.Column%></h4>
+                    <pre><%= issueDetail.Detail%></</pre>
+
+                </div>
+                <%})%>
+            <%}%>
+        </div>
+    </body>
+
+</html>

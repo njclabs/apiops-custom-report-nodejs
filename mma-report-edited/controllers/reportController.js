@@ -4,9 +4,14 @@ const {URL} = require('url');
 const express = require("express");
 const puppeteer = require('puppeteer');     // to create a pdf file
 
+const fs = require('fs');
+const ejs = require('ejs');
+
 // import within project
 const {readSumaryFile} = require("../readSummary"); // read the content from summary.html file 
+const {getHtmlResList, readResourceFile} = require("../readResources"); // read sub-error files
 const {connectDB,getAllCollection, addMultipleCollection, addSingleCollection} = require('../db');  
+const { fstat } = require('fs');
 
 global.selectProject = null;                // global variable to hold the name of current project report
 
@@ -56,17 +61,24 @@ const report_display = (req, res) => {
                 // Compare each element in the database with the summary report
                 let check = false;                  // set the boolean 
                     
+                
                 if(dbIssue.includes(element.issue))
                 {
+                   // console.log("element.issue : ", element.issue);
+
+                    // save the error desription in a variable 
+                    // if there is a match 
                     let getMatch = dbArrayList.find( data => (data.issue === element.issue))
-                    let calTime = element.num * getMatch.time
-                    issueCategory = {issue: getMatch.issue, total: element.num , time: calTime}
+                    let calTime = element.num * getMatch.time  // number of issues * time to solve each issue
+                    issueCategory = {issue: getMatch.issue, total: element.num , time: calTime, alink: element.link}
+
+                    
                     printData.push(issueCategory)
                     estTime += getMatch.time;
                 }
                     
                 else{
-                    issueCategory = {issue: element.issue, total: element.num , time: 0}
+                    issueCategory = {issue: element.issue, total: element.num , time: 0, alink: element.link}
                     printData.push(issueCategory)
                     //console.log("check point  ==", element.issue);
                     if (!(element.issue == 'Errors:' ||  element.issue == 'Info:' ||  element.issue == 'Warnings:' || (element.issue).includes(".xml"))){
@@ -106,19 +118,89 @@ const report_display = (req, res) => {
             // get the complexity of the project
             let complexity = getComplexity(majorErrors[0])
 
-            return Promise.all([printData, missingIssues, estTime, complexity ]);
+            //get the verification time
+            let verifyTime = getVerificationTime(estTime)
+            //console.log("verifyTime :", verifyTime);
+
+            return Promise.all([printData, missingIssues,verifyTime, estTime, complexity ]);
 
         })
-        .then (([printData, missingIssues, estTime, complexity ]) => {
+        .then (([printData, missingIssues, verifyTime, estTime, complexity ]) => {
                 
             // render a view
-            let estCost = estTime * process.env.RATE;
+            // calculate the cost to migrate in hours including the testing time
+            let estCost = (((estTime+verifyTime)/60)* process.env.RATE).toFixed(2);
+
+            // calcualte time in hours
+            var totaltime = estTime;
+            var hours = (totaltime / 60);
+            var rhours = Math.floor(hours);
+            var minutes = (hours - rhours) * 60;
+            var rminutes = Math.round(minutes);
+            
+
+            estTime = (estTime/60).toFixed(2);
 
             // download the generated custom report
             //res.attachment('AddedSummary.html');       // download the customize report  dwFile
             //res.attachment(dwFile); 
-         
-            res.render('report', {complex : complexity, time: estTime, cost:estCost, data: printData, projectname:selectProject});
+
+            //console.log("printData : ", printData)
+
+            // check if the folder exists or not 
+            // if folder does not exist then create a new custom folder
+            // const folderName = path.join(process.env.SRC_ROOT_PATH ,  projectName, "report/customResource");
+            // try{
+            //     if(!fs.existsSync(folderName)){
+            //         fs.mkdirSync(folderName)
+            //         console.log("New folder created")
+            //     }
+            // }
+            // catch(err){
+            //     console.error(err)
+            // }
+
+
+            // read all the html files in the \report\resource folder
+            const htmlList = getHtmlResList(selectProject)         
+
+            // Loop through all the issues in the summary report   
+            htmlList.forEach((element, x) => {
+                console.log("element = ", element)
+
+                // get the filename
+                var token = element.split("\\");
+                // var customFilename = "./resource/custom-"+token[(token.length-1)]
+                var customFilename = "./resources/"+token[(token.length-1)]
+                console.log("customFilename = ", customFilename)
+                // const result = 
+                readResourceFile(element, (issueOnFile, description, issueHrefList, issueDetailList)=>{
+                    // console.log("issueOnFile ==> ", issueOnFile); 
+                    // console.log("description ==> ", description);
+                    // console.log("issueHrefList ==> ", issueHrefList);
+                    // console.log("issueDetailList ==> ", issueDetailList);
+
+
+                    console.log("Create html page");
+                    let customSubIssuePath = path.join(__dirname,'/views/error-details.ejs')
+                    console.log("path ::" , customSubIssuePath);
+                
+                    // save the html file
+                    //E:\NJCMule_Program\NodeJSExample\mma-report\views\error-details.ejs
+                    var template = fs.readFileSync('./views/error-details.ejs', 'utf-8');
+                    var html = ejs.render(template,{issue: issueOnFile, des: description, reflinks:issueHrefList, detail: issueDetailList});
+                    console.log("Save the html");
+                
+                    //fs.writeFileSync("./resource/result.html",html,'utf8');
+                    fs.writeFileSync(customFilename,html,'utf8');
+
+                }); 
+                
+            });
+
+            
+
+            res.render('report', {complex : complexity, timeHrs: rhours, timeMins:rminutes, cost:estCost, vtime: verifyTime, data: printData, projectname:selectProject});
 
            // Wait for the process to complete
            // setTimeout(() => {  console.log("Wait for 2000 ms"); }, 2000);
@@ -154,7 +236,7 @@ const report_createPdf = (req, res) =>{
 
             // get the path of the custom page
              filepath = 'http://localhost:3000/report/' + selectProject
-             console.log("    filepath::  ", filepath);
+            // console.log("    filepath::  ", filepath);
 
             // Print the page as pdf
             await page.goto(filepath,{ waitUntil: 'networkidle2'})
@@ -184,8 +266,8 @@ const report_createPdf = (req, res) =>{
 // return the level of complexity 
 function getComplexity(num)
 {
-    if(num < 5) { return 'Simple'}
-    else if (num > 15) { return 'Difficult'}
+    if(num < process.env.MIN_ISSUE) { return 'Simple'}
+    else if (num > process.env.MAX_ISSUE) { return 'Difficult'}
     else return 'Medium'
 }
 
@@ -211,6 +293,13 @@ function getErrorArray(fileArrayList){
     });
     arrError.push(count);
     return arrError;
+}
+
+//return the estimated time to test the project
+function getVerificationTime(estimatedTime){
+    if(estimatedTime < process.env.MIN_TIME) { return 30}
+    else if (estimatedTime > process.env.AVG_TIME) { return 90}
+    else return 60
 }
 
 // export the functions

@@ -8,6 +8,10 @@ const issueSchema = new Schema ({
         type: String,
         required: true
     },
+    solution:{
+        type: String,
+        required: false
+    },
     time: {
         type: Number,
         required: true

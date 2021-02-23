@@ -21,7 +21,7 @@ const arrError = [];        // list the total errors in each category
 // Read a file 
 function readSumaryFile(newfile)
 {
-   // console.log("=readSumaryFile=", newfile)
+   //console.log("=readSumaryFile=", newfile)
     return new Promise((resolve, reject) => {
         fs.readFile(newfile, 'utf8' , (err, html) => {                /// Replace the filePath to the newfile to pass multiple file path"************************",html)
                
@@ -29,6 +29,7 @@ function readSumaryFile(newfile)
             //console.log(html)
             const $ = cheerio.load(html);        
         
+
             // read the content that has the element with class name as 'col-md-8'
             const bodyContent = $('.col-md-offset-1');
             const h2Content = bodyContent.find('h2');
@@ -47,8 +48,6 @@ function readSumaryFile(newfile)
     
                 if(errorType != '' )
                 {
-                    // console.log(errorType);
-                    // console.log("===============");
                     issueCategory = {issue: errorType, num: 0};
                     arrIssueList.push(issueCategory);
                 }
@@ -56,17 +55,37 @@ function readSumaryFile(newfile)
                 var count = 0;    // count the total issues in each category
                 // read issues from each table
                 const trContent = $(element).find('tr');
+                
                 (trContent).each((index, element) => {
+               //--------------------------------
+            //     let allhref ;
+            //    links = $(element).find('a');; //jquery get all hyperlinks
+            //     $(links).each(function(i, link){
+            //         allhref=( $(link).attr('href'))
+            //         console.log("==", allhref);
+            //     });
+
+                const hrefLink = $(element)
+                                .find('a')
+                                .attr('href');
+
+                
+
+            //    console.log("****", hrefLink);
+               //-----------------------------------
                 const issueInfo = $(element)
                                 .find("td")
                                 .text()
                                 .replace(/\s\s+/g,' ');
+                
     
-    
+                   // console.log("===============");
+                   // console.log("issueInfo : ", issueInfo);
+
                     if(issueInfo != '' )
                     {
                         // seperate issue info and number of issue
-                        var arrIssue = issueInfo.split(" ");
+                        var arrIssue = issueInfo.split(" ");                       
                         
                         
     
@@ -77,7 +96,8 @@ function readSumaryFile(newfile)
                             var issueNum = arrIssue[arrIssue.length-1]  ;                        
                             
                             var issueDesEdit = getInfo(issueDes.trim())
-                            issueCategory = {issue: issueDesEdit, num: issueNum};
+                            issueCategory = {issue: issueDesEdit, num: issueNum, link: hrefLink};
+                            //console.log("issueCategory : ", issueCategory);
                             arrIssueList.push(issueCategory);                       // add all the erros as object 
                             
     

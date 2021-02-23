@@ -10,6 +10,11 @@ function getArrFilePath(sourcedir) {
 	let arrFilePath = [];           // Store all the file path in an array
 	
 
+	// check if the path exist or not
+    if(!fs.existsSync(sourcedir)){
+        console.log("Error: Invalid path- ", sourcedir);
+        return;
+    }
 
     fs.readdirSync(sourcedir).map(file => {
 		const abspath= path.join(sourcedir,  file, "report", 'summary.html'); 	

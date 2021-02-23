@@ -1,3 +1,4 @@
+const e = require('express');
 const {connectDB,getAllCollection, addMultipleCollection, addSingleCollection} = require('../db');
 const Issue = require('../models/dbmodel');          // get the DB model
 
@@ -47,10 +48,14 @@ const db_searchByTime = (req, res) => {
     }
     // save the user input  in a variable
     //const inputTime = req.body.time;
-    
+    console.log("time search == ", inputTime, "== ", isNaN(inputTime))
 
     var IssueList = [];
-    Issue.find({time: inputTime})
+
+    if(isNaN(inputTime) === false){ // returns true if the variable does NOT contain a valid numbe
+        console.log("Its a number ")
+
+        Issue.find({time: inputTime})
         .exec()
         .then((issues) => {
             issues.forEach((issue) => {
@@ -67,8 +72,29 @@ const db_searchByTime = (req, res) => {
             throw err;
                         
         });
-    
-    
+          
+    }    
+    else{
+        console.log("Its a string ")
+       
+        Issue.find({issue: { $regex:inputTime, $options: "i" } })
+        .exec()
+        .then((issues) => {
+            issues.forEach((issue) => {
+                console.log(issue);
+                IssueList.push(issue);
+                //console.log("IssueList  =", IssueList);
+            })
+
+            //console.log("DB : ", IssueList);
+            //resolve( IssueList );
+            res.render('list-by-time', {dbList: IssueList});
+        })
+        .catch((err) => {   
+            throw err;
+                        
+        });   
+    }
 }
 
 /*
@@ -87,11 +113,21 @@ const db_searchById = (req,res) => {
 }
 
 /*
+* Search by  user input string
+*/
+const db_searchByString = (req,res) => {
+    console.log("string : ", req.params.value)
+    // Issue.find({'issue': /req.params.value/i})
+    //     .then((result) => {})
+}
+
+/*
 * Update the time based on given ID
 */
 const db_editTime = async (req, res) =>  {
     const inputTime = req.body.time;
-    console.log("update by id in db : time ===>", req.body.time) 
+    console.log("update by id in db : time ===>", req.body.time)
+    console.log("update by id in db : solution ===>", req.body.solution)  
     console.log("update by id in db : id ===>", req.body.id)
     console.log("update by id in db : pre time ===>", req.body.prevTime)// req.params.id)
     
@@ -101,7 +137,7 @@ const db_editTime = async (req, res) =>  {
          res.status(404).render('404', {title: '404'})
     }
     else{
-         issue = await Issue.findByIdAndUpdate({_id: req.body.id}, {time: req.body.time}, {
+         issue = await Issue.findByIdAndUpdate({_id: req.body.id}, {time: req.body.time, solution:req.body.solution}, {
              runValidators: true
         })
 

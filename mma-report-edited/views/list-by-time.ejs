@@ -18,6 +18,7 @@
             <tr bgcolor="#F6EE58">
               <th style="display:none;">ID</th>
               <th>Issue Description</th>
+              <th>Recommended Solution</th>
               <th>Time taken</th>
               <th>Action</th>
             </tr>
@@ -27,6 +28,7 @@
                 <tr >
                   <td class="gfgid" style="display: none;"><%= dbInfo._id %></td>
                   <td class="gfgissue"><%= dbInfo.issue %></td>
+                  <td class="gfgsolution"><%= dbInfo.solution %></td>
                   <td class="gfgtime tdDB"><%= dbInfo.time %></td>
 
                 
@@ -62,14 +64,14 @@
 
           <% } %>
           </div>
-          <div>
+          <!--div>
           
               
                 <a href="#" class="previous round">&#8249;</a>
                 <a href="#" class="next round">&#8250;</a>
               
           
-          </div>
+          </div-->
           <!-- Pass data from the selected row to the model-->
           <!-- https://www.geeksforgeeks.org/how-to-show-contents-of-selected-row-of-a-table-in-bootstrap-model-using-jquery/-->
           <script> 
@@ -79,12 +81,14 @@
                 // Save the values of a selected row into variables 
                   var getid = $(this).parents("tr").find(".gfgid").text(); 
                   var getissue = $(this).parents("tr").find(".gfgissue").text(); 
+                  var getsolution = $(this).parents("tr").find(".gfgsolution").text(); 
                   var gettime = $(this).parents("tr").find(".gfgtime").text(); 
                     
                   var p = ""; 
                     // CREATING DATA TO SHOW ON MODEL 
                   p += "<label>ID</label> <input type='text'  id='id'  name='id' readonly='readonly' value=" + getid +">"
                   p += "<label>Issue</label> <textarea id='issue' name='issue' readonly='readonly'>"+ getissue + "</textarea>"
+                  p += "<label>Recommended Solution</label> <textarea id='solution' name='solution'>"+ getsolution + "</textarea>"
                   p += "<label>Time</label> <input type='number'  id='time'  name='time' value=" + gettime +"  >"
 
                   p += "<input type='hidden' id='prevTime' name='prevTime' value=" + gettime +"  >"

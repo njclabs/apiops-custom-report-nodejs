@@ -51,8 +51,9 @@
                                 <table id="report-issue" >
                                     <tr class="tr-border">
                                         <th class="td-col1">Description</th>
+                                        <th class="td-col1">Solution</th>
                                         <th class="td-col2">Total issue</th>
-                                        <th class="td-col3">Est. Time</th >
+                                        <th class="td-col3">Est. Time (mins)</th >
                                     </tr >
                                
                              
@@ -61,8 +62,9 @@
                                 <table id="report-issue" >
                                     <tr class="tr-border">
                                         <th class="td-col1">Description</th>
+                                        <th class="td-col1">Solution</th>
                                         <th class="td-col2">Total issue</th>
-                                        <th class="td-col3">Est. Time</th >
+                                        <th class="td-col3">Est. Time (mins)</th >
                                     </tr >
                                 <%  openTable = 1; %>
                                 
@@ -72,13 +74,16 @@
                            
                         <% } else if ((entry.issue).includes(".xml")){ %>
                             <tr class="tr-border" background-color: #E8F8F5;>
-                                <td class="td-col1"><b><%= entry.issue %></b></td >
+                                <td class="td-col1" ><b><%= entry.issue %></b></td >
+                                <td class="td-col1"></td>
                                 <td class="td-col2"><b><%= entry.total %></b></td >
                                 <td class="td-col3"></td >
                             </tr >
                         <% } else { %>
                             <tr class="tr-border1">
-                                <td class="td-col1"><%= entry.issue %></td >
+                                <!--td class="td-col1"><%= entry.issue %></td -->
+                                <td class="td-col1"><a href=<%=entry.alink %>><%= entry.issue %></a></td>
+                                <td class="td-col1">Solution</td>
                                 <td class="td-col2"><%= entry.total %></td >
                                 <td class="td-col3"><%= entry.time %></td >
                             </tr >
@@ -90,19 +95,20 @@
             </table>
         </div>
         
-       
+      
         <div class="col-left-margin"><h3>Estimated Time</h3>
+            <p>Verification time: <%= vtime%></p>
             <table id="report">
                 <tr>
                     <th>Complexity </th>
-                    <th>Estimated time </th>
-                    <th>Estimated cost </th>
+                    <th>Estimated time (hrs) </th>
+                    <th>Estimated cost ($)</th>
                 </tr>
 
                 <tr>
                     <!--% const complex = 'medium' %-->
                     <td><%= complex %> </td>
-                    <td><%= time %></td>
+                    <td><%= timeHrs %> hrs <%= timeMins%>mins</td>
                     <td>$<%= cost %></td>
                 </tr>
             </table>

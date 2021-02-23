@@ -4,8 +4,8 @@
       <%- include('./partials/nav.ejs')%>
         
         <div class="row">
-            <div class="column1 files" >
-              <h2>Project List</h2>
+            <div class="column1 files">
+              <h2 style="text-align: center;">Project List</h2>
 
               <ul class="nav-link" style="list-style-type:square">
                 <% if (fileList.length > 0) { %>
@@ -29,7 +29,7 @@
                  
                   <p>Select a link to view the custom report </p>
                
-                <iframe src="/message" width="100%" height="100%" align="middle" name="customReportDisplay"  id="customReportDisplay" style="background-color:#f5f9fc;">
+                <iframe src="/message"  width="100%" height="100%" align="middle" name="customReportDisplay"  id="customReportDisplay" style="background-color:#f5f9fc;">
                   <p>iframes are not supported by your browser.</p>
                  </iframe>
                  

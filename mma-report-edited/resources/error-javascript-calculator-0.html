@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mule Migration Error Details</title>
+        <style>
+            * {
+                    box-sizing: border-box;
+                }
+            body{
+                background-color: #E8F8F5;
+            }
+
+            .center{
+                margin:auto;
+                margin-top: 5%;
+                width:90%;
+                border: 5px solid rgb(154, 160, 182);                
+                padding: 10px;
+                background-color: rgb(182, 210, 238);
+                height: auto;
+                position: relative;
+                
+            }
+
+            .lower-section{
+                background-color:#AED6F1;
+                width: 100%;
+                height: auto;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--issue: issueOnFile, des: description, reflinks:issueHrefList, detail: issueDetailList-->
+        <div class="center">
+            <div>
+                <h2>Issues: javascript-calculator.xml</h2>
+                <h4>Description:Mule 4 does not require transformers anymore. Now that DataWeave is the default expression language most scenarios that required a transformer no longer exist.</h4>
+                <h4>Reference documentations:</h4>
+                
+                    
+                        <h4><a href=https://docs.mulesoft.com/mule-runtime/4.3/migration-transformers target="_blank">https://docs.mulesoft.com/mule-runtime/4.3/migration-transformers</a></h4>
+                    
+                        <h4><a href=https://docs.mulesoft.com/mule-runtime/4.3/transform-dataweave-xml-reference target="_blank">https://docs.mulesoft.com/mule-runtime/4.3/transform-dataweave-xml-reference</a></h4>
+                    
+                
+            </div>
+
+            
+                
+                <div class="lower-section">
+                    <h4> line: 8 column: 45</h4>
+                    <pre>&lt;flow name=&#34;javascript-calculatorFlow1&#34;&gt;
+    &lt;http:listener allowedMethods=&#34;POST&#34; config-ref=&#34;HTTP_Listener_Configuration&#34; doc:name=&#34;HTTP&#34; path=&#34;/&#34; migration:isMessageSource=&#34;true&#34;&gt;
+        &lt;http:response statusCode=&#34;#[migration::HttpListener::httpListenerResponseSuccessStatusCode(vars)]&#34;&gt;
+            &lt;!--Migration WARN: Avoid using an outbound property to determine the status code.--&gt;
+            &lt;!--    For more information refer to:--&gt;
+            &lt;!--        * https://github.com/mulesoft/mule-migration-assistant/blob/master/docs/user-docs/migration-tool-post-mig.adoc#outbound_properties--&gt;
+            &lt;http:headers&gt;#[migration::HttpListener::httpListenerResponseHeaders(vars)]&lt;/http:headers&gt;
+        &lt;/http:response&gt;
+        &lt;http:error-response statusCode=&#34;#[vars.statusCode default migration::HttpListener::httpListenerResponseErrorStatusCode(vars)]&#34;&gt;
+            &lt;!--Migration WARN: Avoid using an outbound property to determine the status code.--&gt;
+            &lt;!--    For more information refer to:--&gt;
+            &lt;!--        * https://github.com/mulesoft/mule-migration-assistant/blob/master/docs/user-docs/migration-tool-post-mig.adoc#outbound_properties--&gt;
+            &lt;http:headers&gt;#[migration::HttpListener::httpListenerResponseHeaders(vars)]&lt;/http:headers&gt;
+        &lt;/http:error-response&gt;
+    &lt;/http:listener&gt;
+    &lt;compatibility:attributes-to-inbound-properties&gt;
+        &lt;!--Migration WARN: Expressions that query &#39;inboundProperties&#39; from the message should instead query the message &#39;attributes&#39;. Remove this component if there are no uses of &#39;inboundProperties&#39; in expressions or components that rely on &#39;inboundProperties&#39; (such as &#39;copy-properties&#39;).--&gt;
+        &lt;!--    For more information refer to:--&gt;
+        &lt;!--        * https://docs.mulesoft.com/mule-runtime/4.3/intro-mule-message#inbound-properties-are-now-attributes--&gt;
+        &lt;!--        * https://github.com/mulesoft/mule-migration-assistant/blob/master/docs/user-docs/migration-tool-post-mig.adoc#inbound_properties--&gt;
+    &lt;/compatibility:attributes-to-inbound-properties&gt;
+    &lt;scripting:transformer doc:name=&#34;Perform calculation&#34;&gt;
+        &lt;scripting:script engine=&#34;JavaScript&#34;&gt;&lt;![CDATA[var list = eval(&#34;(&#34; + payload + &#34;)&#34;); var sum = 0; for (var i in list) sum += list[i]; payload = sum;]]&gt;&lt;/scripting:script&gt;
+    &lt;/scripting:transformer&gt;
+    &lt;logger doc:name=&#34;Log the outcome&#34; level=&#34;INFO&#34; message=&#34;#[&amp;quot;Sum is: $(payload)&amp;quot;]&#34; /&gt;
+    &lt;set-payload doc:name=&#34;Set payload to the calculation outcome&#34; value=&#34;#[&amp;quot;Sum is: $(payload).&amp;quot;]&#34; /&gt;
+    &lt;compatibility:outbound-properties-to-var&gt;
+        &lt;!--Migration WARN: Instead of using outbound properties in the flow, move the expression that sets the property into the XML attribute (such as &#39;method&#39;) of the operation or listener that accepts the expression.--&gt;
+        &lt;!--    For more information refer to:--&gt;
+        &lt;!--        * https://github.com/mulesoft/mule-migration-assistant/blob/master/docs/user-docs/migration-tool-post-mig.adoc#outbound_properties--&gt;
+    &lt;/compatibility:outbound-properties-to-var&gt;
+&lt;/flow&gt;</</pre>
+
+                </div>
+                
+            
+        </div>
+    </body>
+
+</html>

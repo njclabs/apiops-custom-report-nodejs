@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mule Migration Error Details</title>
+        <style>
+            * {
+                    box-sizing: border-box;
+                }
+            body{
+                background-color: #E8F8F5;
+            }
+
+            .center{
+                margin:auto;
+                margin-top: 5%;
+                width:90%;
+                border: 5px solid rgb(154, 160, 182);                
+                padding: 10px;
+                background-color: rgb(182, 210, 238);
+                height: auto;
+                position: relative;
+                
+            }
+
+            .lower-section{
+                background-color:#AED6F1;
+                width: 100%;
+                height: auto;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <!--issue: issueOnFile, des: description, reflinks:issueHrefList, detail: issueDetailList-->
+        <div class="center">
+            <div>
+                <h2>Issues: javascript-calculator.xml</h2>
+                <h4>Description:Expressions that query &#39;inboundProperties&#39; from the message should instead query the message &#39;attributes&#39;. Remove this component if there are no uses of &#39;inboundProperties&#39; in expressions or components that rely on &#39;inboundProperties&#39; (such as &#39;copy-properties&#39;).</h4>
+                <h4>Reference documentations:</h4>
+                
+                    
+                        <h4><a href=https://docs.mulesoft.com/mule-runtime/4.3/intro-mule-message#inbound-properties-are-now-attributes target="_blank">https://docs.mulesoft.com/mule-runtime/4.3/intro-mule-message#inbound-properties-are-now-attributes</a></h4>
+                    
+                        <h4><a href=https://github.com/mulesoft/mule-migration-assistant/blob/master/docs/user-docs/migration-tool-post-mig.adoc#inbound_properties target="_blank">https://github.com/mulesoft/mule-migration-assistant/blob/master/docs/user-docs/migration-tool-post-mig.adoc#inbound_properties</a></h4>
+                    
+                
+            </div>
+
+            
+                
+                <div class="lower-section">
+                    <h4> line: 29 column: 57</h4>
+                    <pre>&lt;compatibility:attributes-to-inbound-properties /&gt;</</pre>
+
+                </div>
+                
+            
+        </div>
+    </body>
+
+</html>
